@@ -157,10 +157,11 @@ function renderFooter(b) {
   if (b.hours) rows.push(`<div class="cc-line"><span class="cc-ico">🕒</span><span>${esc(b.hours)}</span></div>`);
   if (instaHref) rows.push(`<div class="cc-line"><span class="cc-ico">📷</span><a href="${esc(instaHref)}" target="_blank" rel="noopener">@${esc(instaHandle)}</a></div>`);
 
-  if (!rows.length && !wifi) { $('#footer').innerHTML = ''; return; }
+  if (!rows.length && !wifi) { const hi = $('#heroInfo'); if (hi) hi.innerHTML = ''; return; }
 
-  $('#footer').innerHTML = `
-    <div class="contact-card" style="position: fixed; top: 12px; left: 12px; z-index: 35;">
+  const hi = $('#heroInfo');
+  if (hi) hi.innerHTML = `
+    <div class="contact-card">
       ${wifi}
       ${rows.join('')}
       <p class="cc-note">* Fiyatlar TL olup KDV dahildir. İçerik ve allerjen bilgileri değişiklik gösterebilir.</p>
