@@ -160,7 +160,7 @@ function renderFooter(b) {
   if (!rows.length && !wifi) { $('#footer').innerHTML = ''; return; }
 
   $('#footer').innerHTML = `
-    <div class="contact-card">
+    <div class="contact-card" style="position: fixed; top: 12px; left: 12px; z-index: 35;">
       ${wifi}
       ${rows.join('')}
       <p class="cc-note">* Fiyatlar TL olup KDV dahildir. İçerik ve allerjen bilgileri değişiklik gösterebilir.</p>
