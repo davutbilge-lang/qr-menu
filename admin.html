@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetici Paneli</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- Giriş -->
+    <div id="loginView" class="login" hidden>
+        <form class="login-card" id="loginForm">
+            <h1>🔐 Yönetici Girişi</h1>
+            <p class="muted">QR Menü düzenleme paneli</p>
+            <input type="password" id="pass" placeholder="Şifre" autocomplete="current-password">
+            <button type="submit" class="btn primary block">Giriş Yap</button>
+            <p class="err" id="loginErr"></p>
+        </form>
+    </div>
+
+    <!-- Uygulama -->
+    <div id="app" hidden>
+        <header class="topbar">
+            <h1>📝 QR Menü Yönetimi</h1>
+            <nav class="tabs" id="tabs">
+                <button class="tab active" data-view="biz">İşletme</button>
+                <button class="tab" data-view="menu">Menü</button>
+                <button class="tab" data-view="qr">QR Kod</button>
+            </nav>
+            <button class="btn ghost" id="passBtn">🔑 Şifre</button>
+            <button class="btn ghost" id="themeBtn" title="Koyu/Açık mod">🌙</button>
+            <button class="btn ghost" id="logoutBtn">Çıkış</button>
+        </header>
+
+        <main class="content">
+
+            <!-- İşletme -->
+            <section id="view-biz">
+                <div class="card">
+                    <h2>İşletme Bilgileri</h2>
+                    <form id="bizForm">
+                        <label>İşletme Adı
+                            <input name="name" required>
+                        </label>
+                        <label>Açıklama / Slogan
+                            <input name="phrase" placeholder="Taze ve ev yapımı lezzetler">
+                        </label>
+                        <label>Adres
+                            <input name="address" placeholder="Cadde, Mahalle, Şehir">
+                        </label>
+                        <div class="two">
+                            <label>Telefon
+                                <input name="phone" placeholder="0212 555 12 34">
+                            </label>
+                            <label>Çalışma Saatleri
+                                <input name="hours" placeholder="Her gün 09:00 - 23:00">
+                            </label>
+                        </div>
+                        <div class="two">
+                            <label>WiFi Adı (SSID)
+                                <input name="wifiName" placeholder="musteri-wifi">
+                            </label>
+                            <label>WiFi Şifresi
+                                <input name="wifiPass" placeholder="boş bırakılabilir">
+                            </label>
+                        </div>
+                        <label>Instagram Linki
+                            <input name="instagram" placeholder="https://instagram.com/kullaniciniz (opsiyonel)">
+                        </label>
+                        <label>Logo
+                            <div class="logo-row">
+                                <img id="logoPreview" alt="logo önizleme" hidden>
+                                <button type="button" class="btn" id="logoPick">Logo Seç (PC)</button>
+                                <button type="button" class="btn ghost danger" id="logoClear">Kaldır</button>
+                                <input type="file" id="logoFile" accept="image/*" hidden>
+                            </div>
+                        </label>
+                        <label>Sayfa Üstü Arka Plan Resmi
+                            <div class="logo-row">
+                                <img id="bgPreview" alt="arka plan önizleme" hidden>
+                                <button type="button" class="btn" id="bgPick">Resim Seç (PC)</button>
+                                <button type="button" class="btn ghost danger" id="bgClear">Kaldır</button>
+                                <input type="file" id="bgFile" accept="image/*" hidden>
+                            </div>
+                        </label>
+                        <div class="actions-row">
+                            <button type="submit" class="btn primary">💾 Kaydet</button>
+                            <span class="saved" id="bizSaved"></span>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Menü -->
+            <section id="view-menu" hidden>
+                <div class="toolbar">
+                    <button class="btn primary" id="addCatBtn">+ Kategori Ekle</button>
+                    <button class="btn primary" id="addProductBtn">+ Ürün Ekle</button>
+                </div>
+                <div id="catList"></div>
+            </section>
+
+            <!-- QR -->
+            <section id="view-qr" hidden>
+                <div class="card qr-card">
+                    <h2>Menü QR Kodu</h2>
+                    <p class="muted">Müşterilerinizin tarayacağı menü bağlantısı. Yazdırıp masalara yerleştirin.</p>
+                    <input id="siteUrl" readonly>
+                    <div class="qr-box">
+                        <img id="qrImg" alt="QR kod">
+                    </div>
+                    <button class="btn primary" id="qrDownload">⬇️ QR Kodu İndir</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Kategori Modali -->
+    <div class="modal" id="catModal" hidden>
+        <form class="modal-box" id="catForm">
+            <h2 id="catTitle">Kategori Ekle</h2>
+            <label>Kategori Adı
+                <input name="name" id="catName" required>
+            </label>
+            <label>Kategori Fotoğrafı
+                <div class="cat-img-row">
+                    <img id="catPreview" class="thumb-preview" alt="kategori fotoğrafı önizleme" hidden>
+                    <div class="img-btns">
+                        <button type="button" class="btn" id="catImgPick">📷 Fotoğraf Seç (PC)</button>
+                        <button type="button" class="btn ghost danger" id="catImgClear">Kaldır</button>
+                        <input type="file" id="catImgFile" accept="image/*" hidden>
+                    </div>
+                </div>
+            </label>
+            <div class="actions-row">
+                <button type="button" class="btn ghost" data-close>İptal</button>
+                <button type="submit" class="btn primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Ürün Modali -->
+    <div class="modal" id="prodModal" hidden>
+        <form class="modal-box wide" id="prodForm">
+            <h2 id="prodTitle">Ürün Ekle</h2>
+
+            <div class="prod-layout">
+                <div class="prod-left">
+                    <label>Ürün Adı
+                        <input name="name" id="pName" required>
+                    </label>
+                    <label>Açıklama
+                        <textarea name="description" id="pDesc" rows="2" placeholder="İçindekiler, sunum bilgisi"></textarea>
+                    </label>
+                    <label>Fiyat (₺)
+                        <input name="price" id="pPrice" type="text" inputmode="decimal" placeholder="45.50">
+                    </label>
+                    <label>Kalori (kcal)
+                        <input name="calories" id="pCal" type="text" inputmode="numeric" placeholder="Örn: 320 (boş = bilinmiyor)">
+                    </label>
+                    <label>Kategori
+                        <select id="pCat"></select>
+                    </label>
+                    <div class="visible-row">
+                        <label class="check">
+                            <input type="checkbox" id="pVisible" checked>
+                            <span>Menüde görünür</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="prod-right">
+                    <label>Ürün Fotoğrafı</label>
+                    <div class="img-preview" id="pPreview"><span>Fotoğraf yok</span></div>
+                    <div class="img-btns">
+                        <button type="button" class="btn" id="pImgPick">📷 Fotoğraf Seç</button>
+                        <button type="button" class="btn ghost danger" id="pImgClear">Kaldır</button>
+                        <input type="file" id="pImgFile" accept="image/*" hidden>
+                    </div>
+                </div>
+            </div>
+
+            <label>Allerjenler (yeni yönetmelik gereği zorunlu bilgi) — üzerine gelerek adını görebilirsiniz</label>
+            <div class="ag-grid" id="agGrid"></div>
+
+            <div class="actions-row">
+                <button type="button" class="btn ghost" data-close>İptal</button>
+                <button type="submit" class="btn primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal" id="passModal" hidden>
+        <form class="modal-box" id="passForm">
+            <h2>Şifre Değiştir</h2>
+            <label>Mevcut Şifre
+                <input type="password" id="pwCur" autocomplete="current-password" required>
+            </label>
+            <label>Yeni Şifre
+                <input type="password" id="pwNew" autocomplete="new-password" minlength="6" required>
+            </label>
+            <label>Yeni Şifre (tekrar)
+                <input type="password" id="pwNew2" autocomplete="new-password" required>
+            </label>
+            <p class="err" id="passErr"></p>
+            <div class="actions-row">
+                <button type="button" class="btn ghost" data-close>İptal</button>
+                <button type="submit" class="btn primary">Şifreyi Değiştir</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+
+    <script src="vendor/qrcode.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# Yönetici şifresi (depoya girmez)
+config.json
+
+node_modules/
+*.log

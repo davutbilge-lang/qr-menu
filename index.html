@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Menü</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero" id="hero">
+        <button class="theme-btn" id="themeBtn" title="Koyu/Açık mod">🌙</button>
+        <div class="hero-inner">
+            <img id="logo" class="logo" alt="logo" hidden>
+            <h1 id="bizName">QR Menü</h1>
+            <p id="bizPhrase"></p>
+        </div>
+    </header>
+
+    <nav class="catbar" id="catbar" hidden></nav>
+
+    <main class="wrap" id="menu">
+        <p class="loading">Menü yükleniyor…</p>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <button class="legend-fab" id="legendBtn" title="Allerjen bilgileri">⚠️</button>
+
+    <a href="admin.html" class="admin-link">🔧 Yönetici Paneli</a>
+
+    <div class="modal" id="legendModal" hidden>
+        <div class="modal-box">
+            <h2>Allerjen Bilgileri</h2>
+            <p class="legend-note">
+                Türk Gıda Kodeksi (Gıda Etiketleme ve Tüketicileri Bilgilendirme Yönetmeliği) gereği
+                ürünlerimizde aşağıdaki allerjen maddeler yer alabilir. Sağlık durumunuza göre
+                garsonumuzdan detaylı bilgi isteyebilirsiniz.
+            </p>
+            <ul class="legend-list" id="legendList"></ul>
+            <button class="btn ghost" data-close>Kapat</button>
+        </div>
+    </div>
+
+    <div class="modal" id="prodModal" hidden>
+        <div class="modal-box big">
+            <button class="modal-close" data-close aria-label="Kapat">✕</button>
+            <div class="pm-img" id="pmImg"></div>
+            <div class="pm-body">
+                <div class="row">
+                    <h2 id="pmName"></h2>
+                    <span class="price" id="pmPrice"></span>
+                </div>
+                <p class="pm-desc" id="pmDesc" hidden></p>
+                <div class="pm-cal" id="pmKcal" hidden></div>
+                <div class="pm-sec">
+                    <h3>Allerjen Bilgisi</h3>
+                    <div class="ags" id="pmAgs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Menü Oluşturucu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .generator {
+            max-width: 560px;
+            margin: 16px auto;
+            padding: 16px;
+        }
+        .generator-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .generator-card h2 {
+            color: #7c3a1d;
+            margin-bottom: 16px;
+        }
+        .generator-card input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d9b38c;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #2d2118;
+            background: #fffaf3;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        .generator-card input:focus {
+            border-color: #7c3a1d;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-primary {
+            background: #7c3a1d;
+            color: #fff;
+        }
+        .btn-secondary {
+            background: #f3e3cc;
+            color: #5a2c12;
+        }
+        .btn:hover { opacity: 0.85; }
+        .qr-box {
+            text-align: center;
+            margin-top: 16px;
+            padding: 20px;
+            border: 2px dashed #d9b38c;
+            border-radius: 12px;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-box img {
+            max-width: 220px;
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+        }
+        .hint {
+            font-size: 0.85rem;
+            color: #8a7a6a;
+        }
+        .actions {
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .nav {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .nav a {
+            color: #7c3a1d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .nav a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 QR Menü Oluşturucu</h1>
+            <p class="tagline">Menü linkini taratılabilir QR koda dönüştür</p>
+        </header>
+
+        <div class="nav">
+            <a href="index.html">← Menüyü Görüntüle</a>
+        </div>
+
+        <div class="generator">
+            <div class="generator-card">
+                <h2>QR Kod Üret</h2>
+                <input type="url" id="menuUrl" placeholder="Menü URL'sini yapıştırın (örn: https://siteniz.com/menu)" value="">
+                <button class="btn btn-primary" id="generateBtn">QR Kod Üret</button>
+
+                <div class="qr-box" id="qrBox">
+                    <p class="hint" id="qrHint">Linki girip "QR Kod Üret" butonuna basın.</p>
+                </div>
+
+                <div class="actions" id="actions" hidden>
+                    <button class="btn btn-secondary" id="downloadBtn">QR Kod İndir (PNG)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vendor/qrcode.min.js"></script>
+    <script>
+        const menuUrl = document.getElementById('menuUrl');
+        const generateBtn = document.getElementById('generateBtn');
+        const qrBox = document.getElementById('qrBox');
+        const qrHint = document.getElementById('qrHint');
+        const actions = document.getElementById('actions');
+        const downloadBtn = document.getElementById('downloadBtn');
+        let currentDataUrl = null;
+
+        // Ön tanımlı: index.html yerel antişiyor
+        menuUrl.value = window.location.origin + window.location.pathname.replace('qr-generator.html', 'index.html');
+
+        function generateQR() {
+            const url = menuUrl.value.trim();
+            if (!url) {
+                alert('Lütfen geçerli bir URL girin.');
+                return;
+            }
+            qrBox.innerHTML = '<p class="hint">QR kod üretiliyor...</p>';
+            QRCode.toDataURL(url, { width: 440, margin: 2 })
+                .then(dataUrl => {
+                    currentDataUrl = dataUrl;
+                    qrBox.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = dataUrl;
+                    img.alt = 'QR Kod';
+                    const p = document.createElement('p');
+                    p.className = 'hint';
+                    p.textContent = url;
+                    qrBox.appendChild(img);
+                    qrBox.appendChild(p);
+                    actions.hidden = false;
+                })
+                .catch(err => {
+                    qrBox.innerHTML = '<p class="hint">QR kod oluşturulamadı. URL adresini kontrol edin.</p>';
+                    console.error(err);
+                });
+        }
+
+        generateBtn.addEventListener('click', generateQR);
+
+        downloadBtn.addEventListener('click', () => {
+            if (!currentDataUrl) return;
+            const a = document.createElement('a');
+            a.href = currentDataUrl;
+            a.download = 'qr-menu.png';
+            a.click();
+        });
+
+        menuUrl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') generateQR();
+        });
+
+        generateQR();
+    </script>
+</body>
+</html>
