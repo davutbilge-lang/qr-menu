@@ -46,7 +46,7 @@ body {
     position: absolute; inset: 0;
     background: rgba(18, 12, 6, 0.55);
 }
-.hero-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.hero-inner { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; }
 .theme-btn {
     position: absolute;
     top: 14px; right: 14px;
@@ -65,15 +65,35 @@ body {
 .theme-btn:active { transform: scale(0.92); }
 [data-theme="dark"] .theme-btn { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.45); }
 .hero .logo {
-    width: 92px; height: 92px;
-    border-radius: 20px;
+    width: 200px; height: 200px;
+    border-radius: 44px;
     object-fit: cover;
     background: #f8efe4;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-    margin-bottom: 14px;
+    flex: 0 0 auto;
+    margin: 0;
 }
 .hero h1 { font-size: clamp(1.6rem, 6vw, 2.4rem); letter-spacing: 0.3px; }
 .hero .tagline, .hero p { color: #e7d6bf; margin-top: 6px; font-size: 1rem; }
+.hero-feat {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 32px;
+    max-width: 980px;
+    margin: 22px auto 0;
+    text-align: left;
+}
+.hero-col { min-width: 0; }
+.hero-col-left { justify-self: end; }
+.hero-col-mid { justify-self: center; }
+.hero-col-right { justify-self: start; }
+.hero-inner:has(.contact-card) { max-width: 980px; }
+.hero-col-left .contact-card {
+    margin: 0;
+    max-width: none;
+    font-size: 0.85rem;
+}
 
 /* ---- Kategori çubuğu ---- */
 .catbar {
@@ -290,13 +310,14 @@ footer .tiny { color: #b3a48e; }
 }
 .cc-copy:hover { background: rgba(255, 255, 255, 0.22); }
 
-.cc-note {
+.hero .cc-note {
     margin-top: 9px;
     padding-top: 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.16);
-    font-size: 0.64rem;
-    color: rgba(246, 236, 223, 0.72);
+    font-size: 0.85rem;
+    color: rgba(246, 236, 223, 0.85);
 }
+
 @media (max-width: 640px) {
     .contact-card { max-width: 100%; font-size: 0.78rem; padding: 12px 14px; }
 }
