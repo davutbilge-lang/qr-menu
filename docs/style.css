@@ -40,6 +40,7 @@ body {
     color: #f8efe4;
     padding: 40px 20px 56px;
     text-align: center;
+    overflow: visible;
 }
 .hero.has-bg::before {
     content: '';
@@ -319,7 +320,12 @@ footer .tiny { color: #b3a48e; }
 }
 
 @media (max-width: 640px) {
+    .hero { padding-bottom: 28px; }
+    .hero-feat { gap: 16px; }
+    .hero .logo { width: 140px; height: 140px; border-radius: 32px; }
     .contact-card { max-width: 100%; font-size: 0.78rem; padding: 12px 14px; }
+    .cc-line { gap: 6px; }
+    .cc-line span:last-child { word-break: break-word; }
 }
 
 /* ---- Allerjen butonu + modal ---- */
